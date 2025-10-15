@@ -9,9 +9,9 @@ namespace PeliculasWeb.Models
         public int Id { get; set; }
 
         [Display(Name = "Título")]
-        public string Titulo { get; set; }
+        public required string Titulo { get; set; }
 
-        public string Sinopsis { get; set; }
+        public required string Sinopsis { get; set; }
 
         [Display(Name = "Duración")]
         public int Duracion { get; set; }
@@ -20,20 +20,22 @@ namespace PeliculasWeb.Models
         public int AnioEstreno { get; set; }
 
         [Display(Name = "Portada")]
-        public string imagenUrl { get; set; }
+        public required string imagenUrl { get; set; }
 
         [Display(Name = "Género")]
         public int GeneroId { get; set; }
         [ForeignKey("GeneroId")]
-        public Genero Genero { get; set; }
+        [ValidateNever]
+        public required Genero Genero { get; set; }
 
         [Display(Name = "Director")]
         public int DirectorId { get; set; }
         [ForeignKey("DirectorId")]
         [ValidateNever]
-        public Director Director { get; set; }
+        public required Director Director { get; set; }
 
-        public ICollection<Actor> Actores { get; set; }
+        [ValidateNever]
+        public required ICollection<Actor> Actores { get; set; } = new List<Actor>();
 
     }
 }

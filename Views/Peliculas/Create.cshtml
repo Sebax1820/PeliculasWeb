@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Sinopsis" class="control-label"></label>
-                <input asp-for="Sinopsis" class="form-control" />
+                <textarea asp-for="Sinopsis" class="form-control"></textarea>
                 <span asp-validation-for="Sinopsis" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,6 +44,20 @@
             <div class="form-group">
                 <label asp-for="DirectorId" class="control-label"></label>
                 <select asp-for="DirectorId" class ="form-control" asp-items="ViewBag.DirectorId"></select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Actores</label>
+                <div>
+                    @foreach (var actor in ViewBag.Actores as MultiSelectList)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox"
+                                   name="actoresSeleccionados" value="@actor.Value"
+                                   id="actor_@actor.Value">
+                            <label class="form-check-label" for="actor_@actor.Value">@actor.Text</label>
+                        </div>
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

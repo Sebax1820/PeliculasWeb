@@ -49,8 +49,9 @@ namespace PeliculasWeb.Controllers
         // GET: Peliculas/Create
         public IActionResult Create()
         {
-            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Id");
-            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Id");
+            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre");
+            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre");
+            ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre");
             return View();
         }
 
@@ -59,16 +60,21 @@ namespace PeliculasWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Titulo,Sinopsis,Duracion,AnioEstreno,imagenUrl,GeneroId,DirectorId")] Pelicula pelicula)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Sinopsis,Duracion,AnioEstreno,imagenUrl,GeneroId,DirectorId")] Pelicula pelicula, int[] actoresSeleccionados)
         {
             if (ModelState.IsValid)
             {
+                pelicula.Actores = _context.Actores
+                    .Where(a => actoresSeleccionados.Contains(a.Id))
+                    .ToList();
+
                 _context.Add(pelicula);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Id", pelicula.DirectorId);
-            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Id", pelicula.GeneroId);
+            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre", pelicula.DirectorId);
+            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre", pelicula.GeneroId);
+            ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
             return View(pelicula);
         }
 
@@ -80,13 +86,15 @@ namespace PeliculasWeb.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.FindAsync(id);
+            var pelicula = await _context.Peliculas.Include(p => p.Actores).FirstOrDefaultAsync(p => p.Id == id);
             if (pelicula == null)
             {
                 return NotFound();
             }
-            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Id", pelicula.DirectorId);
-            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Id", pelicula.GeneroId);
+            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre", pelicula.DirectorId);
+            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre", pelicula.GeneroId);
+            var actoresSeleccionados = pelicula.Actores.Select(a => a.Id).ToArray();
+            ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
             return View(pelicula);
         }
 
@@ -95,7 +103,7 @@ namespace PeliculasWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Sinopsis,Duracion,AnioEstreno,imagenUrl,GeneroId,DirectorId")] Pelicula pelicula)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Sinopsis,Duracion,AnioEstreno,imagenUrl,GeneroId,DirectorId")] Pelicula pelicula, int[] actoresSeleccionados)
         {
             if (id != pelicula.Id)
             {
@@ -106,7 +114,37 @@ namespace PeliculasWeb.Controllers
             {
                 try
                 {
-                    _context.Update(pelicula);
+                    var peliculaExistente = await _context.Peliculas
+                    .Include(p => p.Actores)
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                    if (peliculaExistente == null)
+                    {
+                        return NotFound();
+                    }
+
+                    peliculaExistente.Titulo = pelicula.Titulo;
+                    peliculaExistente.Sinopsis = pelicula.Sinopsis;
+                    peliculaExistente.Duracion = pelicula.Duracion;
+                    peliculaExistente.AnioEstreno = pelicula.AnioEstreno;
+                    peliculaExistente.imagenUrl = pelicula.imagenUrl;
+                    peliculaExistente.GeneroId = pelicula.GeneroId;
+                    peliculaExistente.DirectorId = pelicula.DirectorId;
+
+                    peliculaExistente.Actores.Clear();
+
+                    if (actoresSeleccionados != null && actoresSeleccionados.Length > 0)
+                    {
+                        var nuevosActores = await _context.Actores
+                            .Where(a => actoresSeleccionados.Contains(a.Id))
+                            .ToListAsync();
+
+                        foreach (var actor in nuevosActores)
+                        {
+                            peliculaExistente.Actores.Add(actor);
+                        }
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -122,8 +160,9 @@ namespace PeliculasWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Id", pelicula.DirectorId);
-            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Id", pelicula.GeneroId);
+            ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre", pelicula.DirectorId);
+            ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre", pelicula.GeneroId);
+            ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
             return View(pelicula);
         }
 
