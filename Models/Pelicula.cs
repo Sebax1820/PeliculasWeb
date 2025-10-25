@@ -19,9 +19,6 @@ namespace PeliculasWeb.Models
         [Display(Name = "Año de estreno")]
         public int AnioEstreno { get; set; }
 
-        [Display(Name = "Portada")]
-        public required string imagenUrl { get; set; }
-
         [Display(Name = "Género")]
         public int GeneroId { get; set; }
         [ForeignKey("GeneroId")]
@@ -36,6 +33,11 @@ namespace PeliculasWeb.Models
 
         [ValidateNever]
         public required ICollection<Actor> Actores { get; set; } = new List<Actor>();
+
+        [Display(Name = "Portada")]
+        public string? ImagenRuta { get; set; }
+        [NotMapped]
+        public IFormFile? ImagenArchivo { get; set; }
 
     }
 }

@@ -11,6 +11,7 @@ namespace PeliculasWeb.Models
         public required string Biografia { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
+        [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
 
         [ValidateNever]

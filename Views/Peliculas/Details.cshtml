@@ -35,12 +35,6 @@
             @Html.DisplayFor(model => model.AnioEstreno)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.imagenUrl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.imagenUrl)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Genero)
         </dt>
         <dd class = "col-sm-10">
@@ -52,6 +46,13 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Director.Nombre)
         </dd>
+        @if (!string.IsNullOrEmpty(Model.ImagenRuta)) //Mostrar la imagen actual
+        {
+            <div class="form-group">
+                <label>Portada:</label><br />
+                <img src="@Model.ImagenRuta" alt="Portada de @Model.Titulo" style="width:100px;height:auto;" />
+            </div>
+        }
     </dl>
 </div>
 <div>

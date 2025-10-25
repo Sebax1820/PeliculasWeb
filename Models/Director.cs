@@ -9,6 +9,7 @@ namespace PeliculasWeb.Models
         public required string Nacionalidad { get; set; }
 
         [Display(Name = "Fecha de Nacimiento")]
+        [DataType(DataType.Date)]
         public DateTime FechaNacimiento { get; set; }
 
         public ICollection<Pelicula>? Peliculas { get; set; }

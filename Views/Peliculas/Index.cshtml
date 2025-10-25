@@ -9,6 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index" method="get" class="form-inline mb-3">
+    <div class="form-group">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="BuscarPelicula" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -25,13 +33,13 @@
                 @Html.DisplayNameFor(model => model.AnioEstreno)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.imagenUrl)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Genero)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Director)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImagenRuta)
             </th>
             <th></th>
         </tr>
@@ -52,13 +60,16 @@
                 @Html.DisplayFor(modelItem => item.AnioEstreno)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.imagenUrl)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Genero.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Director.Nombre)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImagenRuta))
+                {
+                    <img src="@item.ImagenRuta" alt="Portada de @item.Titulo" style="width:100px;height:auto;" />
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
