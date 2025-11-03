@@ -34,6 +34,7 @@ namespace PeliculasWeb.Controllers
             }
 
             var actor = await _context.Actores
+                .Include(a => a.Peliculas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (actor == null)
             {

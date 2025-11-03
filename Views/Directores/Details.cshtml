@@ -1,36 +1,57 @@
 ﻿@model PeliculasWeb.Models.Director
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Director";
 }
 
-<h1>Details</h1>
+<link rel="stylesheet" href="~/css/peliculas.css" />
 
-<div>
-    <h4>Director</h4>
+<h1>@Model.Nombre</h1>
+
+<div class="mb-4">
+    <h4>Información del Director</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nacionalidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nacionalidad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Nombre</dd>
+
+        <dt class="col-sm-2">Nacionalidad</dt>
+        <dd class="col-sm-10">@Model.Nacionalidad</dd>
+
+        <dt class="col-sm-2">Fecha de Nacimiento</dt>
+        <dd class="col-sm-10">@Model.FechaNacimiento.ToString("dd/MM/yyyy")</dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mb-4">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary me-2">Editar</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger me-2">Eliminar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
 </div>
+
+@if (Model.Peliculas != null && Model.Peliculas.Any())
+{
+    <div class="mt-5">
+        <h4>Películas dirigidas</h4>
+        <div class="movie-grid">
+            @foreach (var pelicula in Model.Peliculas)
+            {
+                <a asp-controller="Peliculas" asp-action="Details" asp-route-id="@pelicula.Id" class="movie-card">
+                    <div class="movie-image">
+                        @if (!string.IsNullOrEmpty(pelicula.ImagenRuta))
+                        {
+                            <img src="@pelicula.ImagenRuta" alt="@pelicula.Titulo" />
+                        }
+                        else
+                        {
+                            <div class="no-image">Sin imagen</div>
+                        }
+                    </div>
+                    <div class="movie-title">
+                        <h5>@pelicula.Titulo</h5>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}

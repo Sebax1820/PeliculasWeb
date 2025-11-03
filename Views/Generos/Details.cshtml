@@ -1,30 +1,52 @@
 ﻿@model PeliculasWeb.Models.Genero
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del género";
 }
 
-<h1>Details</h1>
+<h1>@Model.Nombre</h1>
 
-<div>
-    <h4>Genero</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-    </dl>
+<hr />
+
+<h4>Descripción</h4>
+<p>@Model.Descripcion</p>
+
+<div class="mb-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary">Editar</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Eliminar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+<hr />
+
+@if (Model.Peliculas != null && Model.Peliculas.Any())
+{
+    <h4>Películas de este género:</h4>
+    <div class="movie-grid mt-3">
+        @foreach (var pelicula in Model.Peliculas)
+        {
+            <a asp-controller="Peliculas" asp-action="Details" asp-route-id="@pelicula.Id" class="movie-card">
+                <div class="movie-image">
+                    @if (!string.IsNullOrEmpty(pelicula.ImagenRuta))
+                    {
+                        <img src="@pelicula.ImagenRuta" alt="@pelicula.Titulo" />
+                    }
+                    else
+                    {
+                        <div class="no-image">Sin imagen</div>
+                    }
+                </div>
+                <div class="movie-title">
+                    <h5>@pelicula.Titulo</h5>
+                    <small>@pelicula.Director?.Nombre</small>
+                </div>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">No hay películas registradas en este género.</p>
+}
+
+<link rel="stylesheet" href="~/css/peliculas.css" />

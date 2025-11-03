@@ -1,22 +1,106 @@
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
     font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    background-color: #121212;
+    color: #F5F5F5;
+    scroll-behavior: smooth;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #F5F5F5;
+    display: grid;
+    min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
+}
+
+a {
+    color: #FFB320;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: #FFD369;
+    }
+
+.btn {
+    background-color: #E50914;
+    border: none;
+    color: #fff;
+    transition: background-color 0.2s ease;
+}
+
+    .btn:hover {
+        background-color: #ff232d;
+    }
+
+
+.movie-card {
+    background-color: #1E1E1E !important;
+    color: #FFB320 !important;
+}
+
+    .movie-card:hover {
+        background-color: #2C2C2C !important;
+        color: #FFD369 !important;
+    }
+
+.movie-title {
+    background-color: #1E1E1E !important;
+    color: #FFB320 !important;
+    padding: 12px;
+    text-align: center;
+    width: 100%;
+    border-top: 2px solid #FFB320;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.movie-card:hover .movie-title {
+    background-color: #2C2C2C !important;
+    color: #FFD369 !important;
+}
+
+.custom-navbar {
+    background-color: #1E1E1E !important;
+    border-bottom: 2px solid #FFB320 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+
+    .custom-navbar .navbar-brand {
+        color: #FFB320 !important;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+        .custom-navbar .navbar-brand:hover {
+            color: #F5F5F5 !important;
+        }
+
+
+    .custom-navbar .nav-link {
+        color: #F5F5F5 !important;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+        .custom-navbar .nav-link:hover {
+            color: #FFB320 !important;
+        }
+
+
+    .custom-navbar .navbar-toggler {
+        border-color: #FFB320;
+    }
+
+    .custom-navbar .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,179,32)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+
+footer.footer {
+    background-color: #121212;
+    color: #F5F5F5;
+    padding: 20px 0;
 }

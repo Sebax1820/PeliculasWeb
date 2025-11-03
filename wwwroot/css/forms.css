@@ -1,0 +1,119 @@
+﻿.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1E1E1E;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    color: #F5F5F5;
+}
+
+    .form-container h2 {
+        color: #FFB320;
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+    }
+
+/* Campos de entrada */
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: #FFD369;
+    margin-bottom: 6px;
+}
+
+.form-control,
+select,
+textarea,
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"] {
+    background-color: #2C2C2C;
+    border: 1px solid #444;
+    color: #F5F5F5;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+    .form-control:focus,
+    select:focus,
+    textarea:focus,
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    input[type="file"]:focus {
+        border-color: #E50914;
+        background-color: #3A3A3A;
+        outline: none;
+    }
+
+    /* Estilo del desplegable de select (lista de opciones) */
+    select option {
+        background-color: #2C2C2C;
+        color: #F5F5F5;
+    }
+
+/* Botones principales */
+.btn-primary {
+    background-color: #E50914;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #ff232d;
+        transform: translateY(-2px);
+    }
+
+/* Botones secundarios */
+.btn-secondary {
+    background-color: #2C2C2C;
+    color: #FFD369;
+    border: 1px solid #FFD369;
+    border-radius: 6px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .btn-secondary:hover {
+        background-color: #FFD369;
+        color: #121212;
+    }
+
+/* Contenedor de botones */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Mensajes de validación */
+.text-danger {
+    color: #E50914 !important;
+    font-weight: 500;
+}
+
+/* Estilo para input tipo file */
+input[type="file"]::-webkit-file-upload-button {
+    background-color: #E50914;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    input[type="file"]::-webkit-file-upload-button:hover {
+        background-color: #ff232d;
+    }

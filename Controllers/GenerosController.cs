@@ -34,7 +34,9 @@ namespace PeliculasWeb.Controllers
             }
 
             var genero = await _context.Generos
+                .Include(g => g.Peliculas)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (genero == null)
             {
                 return NotFound();

@@ -1,8 +1,40 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Tu sitio favorito de peliculas!</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center mt-5 text-light">
+    <h1 class="display-4 mb-4 text-danger fw-bold">🎬 Bienvenido a PelículasWeb</h1>
+    <p class="lead mb-5">Descubre, organiza y disfruta tu colección de películas favoritas.</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark text-light shadow-lg border border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">Explora las Películas</h5>
+                    <p class="card-text">Encuentra información detallada sobre tus películas favoritas.</p>
+                    <a asp-controller="Peliculas" asp-action="Index" class="btn btn-danger w-100">Ver películas</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark text-light shadow-lg border border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">Conoce a los Directores</h5>
+                    <p class="card-text">Descubre quién es la mente detrás de cada historia.</p>
+                    <a asp-controller="Directores" asp-action="Index" class="btn btn-danger w-100">Ver directores</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark text-light shadow-lg border border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">Actores Destacados</h5>
+                    <p class="card-text">Conoce a los protagonistas de tus películas preferidas.</p>
+                    <a asp-controller="Actores" asp-action="Index" class="btn btn-danger w-100">Ver actores</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

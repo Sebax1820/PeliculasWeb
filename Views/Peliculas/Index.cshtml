@@ -1,82 +1,43 @@
 ﻿@model IEnumerable<PeliculasWeb.Models.Pelicula>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Películas";
 }
 
-<h1>Películas</h1>
+<link rel="stylesheet" href="~/css/peliculas.css" />
+<h1 class="mb-4">Películas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary mb-3">Crear nueva</a>
 </p>
 
-<form asp-action="Index" method="get" class="form-inline mb-3">
-    <div class="form-group">
-        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="BuscarPelicula" />
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Buscar película..." />
+        <button type="submit" class="btn btn-outline-primary">Buscar</button>
     </div>
-    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
 </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sinopsis)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duracion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnioEstreno)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genero)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Director)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagenRuta)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sinopsis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duracion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnioEstreno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genero.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Director.Nombre)
-            </td>
-            <td>
+
+<div class="movie-grid">
+    @foreach (var item in Model)
+    {
+        <a asp-action="Details" asp-route-id="@item.Id" class="movie-card">
+            <div class="movie-image">
                 @if (!string.IsNullOrEmpty(item.ImagenRuta))
                 {
-                    <img src="@item.ImagenRuta" alt="Portada de @item.Titulo" style="width:100px;height:auto;" />
+                    <img src="@item.ImagenRuta" alt="Portada de @item.Titulo" />
                 }
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                else
+                {
+                    <div class="no-image">Sin imagen</div>
+                }
+            </div>
+            <div class="movie-title">
+                <h5>@item.Titulo</h5>
+            </div>
+        </a>
+    }
+</div>
+
+

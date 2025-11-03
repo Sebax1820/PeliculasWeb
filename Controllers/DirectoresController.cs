@@ -34,6 +34,7 @@ namespace PeliculasWeb.Controllers
             }
 
             var director = await _context.Directores
+                .Include(d => d.Peliculas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (director == null)
             {

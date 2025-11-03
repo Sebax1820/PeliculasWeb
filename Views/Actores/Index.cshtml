@@ -1,47 +1,22 @@
 ﻿@model IEnumerable<PeliculasWeb.Models.Actor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Actores";
 }
 
-<h1>Actores</h1>
+<link rel="stylesheet" href="~/css/actores.css" />
+
+<h1 class="mb-4">Actores</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary mb-3">Crear nuevo</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Biografia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaNacimiento)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Biografia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaNacimiento)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="actor-grid">
+    @foreach (var actor in Model)
+    {
+        <a asp-action="Details" asp-route-id="@actor.Id" class="actor-card">
+            <div class="actor-name">@actor.Nombre</div>
+        </a>
+    }
+</div>
