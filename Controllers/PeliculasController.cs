@@ -109,15 +109,22 @@ namespace PeliculasWeb.Controllers
                 return NotFound();
             }
 
-            var pelicula = await _context.Peliculas.Include(p => p.Actores).FirstOrDefaultAsync(p => p.Id == id);
+            var pelicula = await _context.Peliculas
+                .Include(p => p.Actores)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
             if (pelicula == null)
             {
                 return NotFound();
             }
+
             ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre", pelicula.DirectorId);
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre", pelicula.GeneroId);
+
             var actoresSeleccionados = pelicula.Actores.Select(a => a.Id).ToArray();
-            ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
+
+            ViewBag.Actores = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
+
             return View(pelicula);
         }
 
@@ -133,9 +140,8 @@ namespace PeliculasWeb.Controllers
                 return NotFound();
             }
 
-            //Recuperar pelicula anterior de la base de datos
+            // Recuperar película con sus actores (sin AsNoTracking, para poder modificarla)
             var peliculaExistente = await _context.Peliculas
-                .AsNoTracking()
                 .Include(p => p.Actores)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
@@ -160,7 +166,7 @@ namespace PeliculasWeb.Controllers
                             }
                         }
 
-                        // Guardar la nueva imagen
+                        // Guardar nueva imagen
                         var nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(pelicula.ImagenArchivo.FileName);
                         var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagenes", nombreArchivo);
 
@@ -169,21 +175,12 @@ namespace PeliculasWeb.Controllers
                             await pelicula.ImagenArchivo.CopyToAsync(stream);
                         }
 
-                        pelicula.ImagenRuta = "/imagenes/" + nombreArchivo;
+                        peliculaExistente.ImagenRuta = "/imagenes/" + nombreArchivo;
                     }
                     else
                     {
-                        //Recuperar la imagen anterior de la base de datos
-                        pelicula.ImagenRuta = peliculaExistente.ImagenRuta;
-                    }
-                    _context.Update(pelicula);
-                    await _context.SaveChangesAsync();
-
-
-
-                    if (peliculaExistente == null)
-                    {
-                        return NotFound();
+                        // Mantener la imagen anterior
+                        peliculaExistente.ImagenRuta = peliculaExistente.ImagenRuta;
                     }
 
                     peliculaExistente.Titulo = pelicula.Titulo;
@@ -208,6 +205,8 @@ namespace PeliculasWeb.Controllers
                     }
 
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -220,8 +219,8 @@ namespace PeliculasWeb.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             ViewData["DirectorId"] = new SelectList(_context.Directores, "Id", "Nombre", pelicula.DirectorId);
             ViewData["GeneroId"] = new SelectList(_context.Generos, "Id", "Nombre", pelicula.GeneroId);
             ViewData["Actores"] = new MultiSelectList(_context.Actores, "Id", "Nombre", actoresSeleccionados);
